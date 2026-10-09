@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { TripProvider, useTrip } from './src/store/tripStore';
+import { HomeScreen } from './src/screens/HomeScreen';
+import { TripScreen } from './src/screens/TripScreen';
+
+function AppNavigator() {
+  const { status } = useTrip();
+
+  if (status === 'ACTIVE') {
+    return <TripScreen />;
+  }
+
+  return <HomeScreen />;
+}
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.root}>
+      <TripProvider>
+        <AppNavigator />
+      </TripProvider>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#F8FAFC',
   },
 });
